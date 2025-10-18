@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { LogIn, GraduationCap } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { CreateAdminButton } from './CreateAdminButton';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
@@ -26,9 +25,7 @@ export function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl">
-        <CreateAdminButton />
-
+      <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="flex flex-col items-center mb-8">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg mb-4">
