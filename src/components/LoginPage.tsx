@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { LogIn, GraduationCap } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { CreateAdminButton } from './CreateAdminButton';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
@@ -27,7 +26,7 @@ export function LoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
-        <CreateAdminButton />
+        {/* <CreateAdminButton /> */}
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <div className="flex flex-col items-center mb-8">
@@ -49,8 +48,6 @@ export function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-right"
-                placeholder="admin@example.com"
-                dir="ltr"
               />
             </div>
 
@@ -64,7 +61,6 @@ export function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-right"
-                placeholder="••••••••"
               />
             </div>
 
@@ -93,11 +89,11 @@ export function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-gray-200">
+          {/* <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-center text-sm text-gray-600">
               للوصول إلى النظام، يرجى استخدام حساب المدير
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

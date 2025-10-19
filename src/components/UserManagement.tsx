@@ -48,7 +48,7 @@ export function UserManagement() {
       can_add: false,
     },
   });
-  const { profile } = useAuth();
+  const { role: profile } = useAuth();
 
   useEffect(() => {
     fetchUsers();
@@ -231,11 +231,10 @@ export function UserManagement() {
                   <td className="px-4 py-3 text-gray-700" dir="ltr">{user.email}</td>
                   <td className="px-4 py-3">
                     <span
-                      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${
-                        user.role === 'admin'
+                      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${user.role === 'admin'
                           ? 'bg-purple-100 text-purple-700'
                           : 'bg-gray-100 text-gray-700'
-                      }`}
+                        }`}
                     >
                       {user.role === 'admin' ? <Shield size={14} /> : <User size={14} />}
                       {user.role === 'admin' ? 'مدير' : 'مستخدم'}

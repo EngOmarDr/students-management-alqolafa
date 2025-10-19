@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, GraduationCap, LayoutGrid, Table2, Users, LogOut } from 'lucide-react';
+import { Plus, GraduationCap, LayoutGrid, Table2, LogOut } from 'lucide-react';
 import { supabase } from './lib/supabase';
 import { StudentForm } from './components/StudentForm';
 import { StudentsList } from './components/StudentsList';
@@ -18,7 +18,7 @@ export function AppContent() {
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [currentPage, setCurrentPage] = useState<'students' | 'users'>('students');
-  const { profile, signOut, canView, canAdd, canEdit, canDelete, isAdmin } = useAuth();
+  const { user, role, signOut, canView, canAdd, canEdit, canDelete } = useAuth();
 
   useEffect(() => {
     if (canView()) {
@@ -124,7 +124,7 @@ export function AppContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto lg:px-12 py-8">
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
@@ -138,9 +138,9 @@ export function AppContent() {
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <p className="text-sm font-medium text-gray-700">{profile?.full_name}</p>
+                <p className="text-sm font-medium text-gray-700">{user?.email}</p>
                 <p className="text-xs text-gray-500">
-                  {profile?.role === 'admin' ? 'مدير' : 'مستخدم'}
+                  {role === 'admin' ? 'مدير' : 'مستخدم'}
                 </p>
               </div>
               <button
@@ -152,16 +152,15 @@ export function AppContent() {
               </button>
             </div>
           </div>
-
+          {/* 
           <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200 mb-4">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentPage('students')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${
-                  currentPage === 'students'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${currentPage === 'students'
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'text-gray-600 hover:bg-gray-100'
+                  }`}
               >
                 <GraduationCap size={18} />
                 الطلاب
@@ -169,11 +168,10 @@ export function AppContent() {
               {isAdmin() && (
                 <button
                   onClick={() => setCurrentPage('users')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${
-                    currentPage === 'users'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${currentPage === 'users'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-gray-600 hover:bg-gray-100'
+                    }`}
                 >
                   <Users size={18} />
                   المستخدمين
@@ -181,7 +179,7 @@ export function AppContent() {
               )}
             </div>
           </div>
-
+ */}
           {currentPage === 'students' && canView() && (
             <>
               <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200 mb-6">
@@ -204,22 +202,20 @@ export function AppContent() {
                   <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
                     <button
                       onClick={() => setViewMode('cards')}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${
-                        viewMode === 'cards'
-                          ? 'bg-white text-blue-600 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-800'
-                      }`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${viewMode === 'cards'
+                        ? 'bg-white text-blue-600 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-800'
+                        }`}
                     >
                       <LayoutGrid size={18} />
                       بطاقات
                     </button>
                     <button
                       onClick={() => setViewMode('table')}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${
-                        viewMode === 'table'
-                          ? 'bg-white text-blue-600 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-800'
-                      }`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition font-medium text-sm ${viewMode === 'table'
+                        ? 'bg-white text-blue-600 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-800'
+                        }`}
                     >
                       <Table2 size={18} />
                       جدول

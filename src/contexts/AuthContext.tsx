@@ -2,23 +2,14 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { supabase } from '../lib/supabase';
 import type { User } from '@supabase/supabase-js';
 
-interface UserProfile {
+interface UserRoles {
   id: string;
-  email: string;
-  full_name: string;
   role: 'admin' | 'user';
-  permissions: {
-    can_view: boolean;
-    can_edit: boolean;
-    can_delete: boolean;
-    can_add: boolean;
-  };
-  is_active: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
-  profile: UserProfile | null;
+  role: 'admin' | 'user';
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, fullName: string) => Promise<void>;
@@ -34,14 +25,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [userRole, setUserRole] = useState<UserRoles | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id);
+        fetchRole(session.user.id);
       } else {
         setLoading(false);
       }
@@ -51,9 +42,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       (async () => {
         setUser(session?.user ?? null);
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          await fetchRole(session.user.id);
         } else {
-          setProfile(null);
+          setUserRole(null);
           setLoading(false);
         }
       })();
@@ -62,19 +53,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  const fetchProfile = async (userId: string) => {
+  const fetchRole = async (userId: string) => {
     try {
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from('user_roles')
         .select('*')
-        .eq('id', userId)
-        .maybeSingle();
+        .eq('user_id', userId)
+        .single();
 
       if (error) throw error;
-      setProfile(data);
+      setUserRole(data);
     } catch (error) {
       console.error('Error fetching profile:', error);
-      setProfile(null);
+      setUserRole(null);
     } finally {
       setLoading(false);
     }
@@ -106,17 +97,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
   };
 
-  const isAdmin = () => !!(profile?.role === 'admin' && profile?.is_active);
-  const canView = () => !!(isAdmin() || (profile?.permissions?.can_view && profile?.is_active));
-  const canEdit = () => !!(isAdmin() || (profile?.permissions?.can_edit && profile?.is_active));
-  const canDelete = () => !!(isAdmin() || (profile?.permissions?.can_delete && profile?.is_active));
-  const canAdd = () => !!(isAdmin() || (profile?.permissions?.can_add && profile?.is_active));
+  const isAdmin = () => !!(userRole?.role === 'admin');
+  const canView = () => !!isAdmin();
+  const canEdit = () => !!isAdmin();
+  const canDelete = () => !!isAdmin();
+  const canAdd = () => !!isAdmin();
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        profile,
+        role: userRole?.role ?? 'user',
         loading,
         signIn,
         signUp,
