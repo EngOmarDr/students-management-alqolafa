@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, User, Calendar, MapPin, Flag, Shield, BookOpen, Computer, Award, Heart, Library } from 'lucide-react';
 import type { Database } from '../lib/database.types';
 
 type Student = Database['public']['Tables']['students']['Row'];
@@ -85,150 +85,169 @@ export function StudentForm({ student, onSubmit, onCancel }: StudentFormProps) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              اسم الطالب *
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.student_name}
-              onChange={(e) => setFormData({ ...formData, student_name: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+        <form onSubmit={handleSubmit} className="p-6 space-y-4" dir="rtl">
+          {/* Personal Information Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-700 border-b border-gray-200 pb-2 flex items-center gap-2">
+              <User className="text-blue-500" size={20} />
+              المعلومات الشخصية
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <User size={16} className="text-blue-500" />
+                  اسم الطالب *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.student_name}
+                  onChange={(e) => setFormData({ ...formData, student_name: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <Calendar size={16} className="text-blue-500" />
+                  تاريخ الميلاد *
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.birth_date}
+                  onChange={(e) => setFormData({ ...formData, birth_date: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <MapPin size={16} className="text-blue-500" />
+                  مكان السكن *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.residence}
+                  onChange={(e) => setFormData({ ...formData, residence: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <Flag size={16} className="text-blue-500" />
+                  الجنسية
+                </label>
+                <input
+                  type="text"
+                  value={formData.nationality}
+                  onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <Shield size={16} className="text-blue-500" />
+                  اسم المُتابِع
+                </label>
+                <input
+                  type="text"
+                  value={formData.guardian_name}
+                  onChange={(e) => setFormData({ ...formData, guardian_name: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              تاريخ الميلاد *
-            </label>
-            <input
-              type="date"
-              required
-              value={formData.birth_date}
-              onChange={(e) => setFormData({ ...formData, birth_date: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              مكان السكن *
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.residence}
-              onChange={(e) => setFormData({ ...formData, residence: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              الجنسية *
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.nationality}
-              onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              اسم المُتابِع
-            </label>
-            <input
-              type="text"
-              value={formData.guardian_name}
-              onChange={(e) => setFormData({ ...formData, guardian_name: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              الدورات العلمية التي سبق أن اشتركت بها
-            </label>
-            <textarea
-              value={formData.previous_courses}
-              onChange={(e) => setFormData({ ...formData, previous_courses: e.target.value })}
-              rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              كم تحفظ من القرآن *
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.quran_memorized}
-              onChange={(e) => setFormData({ ...formData, quran_memorized: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="مثال: 5 أجزاء، حافظ كامل، ..."
-            />
-          </div>
-
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="computer_proficiency"
-              checked={formData.computer_proficiency}
-              onChange={(e) => setFormData({ ...formData, computer_proficiency: e.target.checked })}
-              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <label htmlFor="computer_proficiency" className="mr-2 text-sm font-medium text-gray-700">
-              هل تجيد التعامل مع الحاسب
-            </label>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              الشهادة الحاصل عليها
-            </label>
-            <input
-              type="text"
-              value={formData.certificate}
-              onChange={(e) => setFormData({ ...formData, certificate: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              الوضع العائلي *
-            </label>
-            <select
-              required
-              value={formData.family_status}
-              onChange={(e) => setFormData({ ...formData, family_status: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">اختر...</option>
-              <option value="أعزب">أعزب</option>
-              <option value="متزوج">متزوج</option>
-              <option value="مطلق">مطلق</option>
-              <option value="أرمل">أرمل</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              ما هي الكتب التي تطالعها
-            </label>
-            <textarea
-              value={formData.books_read}
-              onChange={(e) => setFormData({ ...formData, books_read: e.target.value })}
-              rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+          {/* Academic Information Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-700 border-b border-gray-200 pb-2 flex items-center gap-2">
+              <BookOpen className="text-blue-500" size={20} />
+              المعلومات الأكاديمية
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <BookOpen size={16} className="text-blue-500" />
+                  الدورات العلمية التي سبق أن اشتركت بها
+                </label>
+                <textarea
+                  value={formData.previous_courses}
+                  onChange={(e) => setFormData({ ...formData, previous_courses: e.target.value })}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <BookOpen size={16} className="text-blue-500" />
+                  كم تحفظ من القرآن *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.quran_memorized}
+                  onChange={(e) => setFormData({ ...formData, quran_memorized: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="مثال: 5 أجزاء، حافظ كامل، ..."
+                />
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="computer_proficiency"
+                  checked={formData.computer_proficiency}
+                  onChange={(e) => setFormData({ ...formData, computer_proficiency: e.target.checked })}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="computer_proficiency" className="mr-2 text-sm font-medium text-gray-700 flex items-center gap-2">
+                  <Computer size={16} className="text-blue-500" />
+                  هل تجيد التعامل مع الحاسب
+                </label>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <Award size={16} className="text-blue-500" />
+                  الشهادة الحاصل عليها
+                </label>
+                <input
+                  type="text"
+                  value={formData.certificate}
+                  onChange={(e) => setFormData({ ...formData, certificate: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <Heart size={16} className="text-blue-500" />
+                  الوضع العائلي *
+                </label>
+                <select
+                  required
+                  value={formData.family_status}
+                  onChange={(e) => setFormData({ ...formData, family_status: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">اختر...</option>
+                  <option value="أعزب">أعزب</option>
+                  <option value="متزوج">متزوج</option>
+                  <option value="مطلق">مطلق</option>
+                  <option value="أرمل">أرمل</option>
+                </select>
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+                  <Library size={16} className="text-blue-500" />
+                  ما هي الكتب التي تطالعها
+                </label>
+                <textarea
+                  value={formData.books_read}
+                  onChange={(e) => setFormData({ ...formData, books_read: e.target.value })}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="flex gap-3 pt-4">
